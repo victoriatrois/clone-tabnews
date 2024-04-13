@@ -1,6 +1,5 @@
 .next
 node_modules
-tsconfig.json
 dist/
 build/
 .env
