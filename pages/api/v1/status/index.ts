@@ -1,6 +1,6 @@
-import database from "infra/database";
 import { NextApiRequest, NextApiResponse } from "next";
 import { QueryResult } from "pg";
+import database from "infra/database";
 
 async function getStatus(
   request: NextApiRequest,
@@ -9,20 +9,21 @@ async function getStatus(
   try {
     const updatedAt: string = new Date().toISOString();
 
-    const databaseVersionQueryResult: QueryResult = await database.query(
-      "SHOW server_version;",
-    );
+    const databaseVersionQueryResult: QueryResult = await database.query({
+      text: "SHOW server_version;",
+    });
     const databaseVersion: string =
       databaseVersionQueryResult.rows[0].server_version;
 
-    const maxConnectionsQueryResult: QueryResult = await database.query(
-      "SHOW max_connections;",
-    );
+    const maxConnectionsQueryResult: QueryResult = await database.query({
+      text: "SHOW max_connections;",
+    });
+
     const maxConnections: number = Number(
       maxConnectionsQueryResult.rows[0].max_connections,
     );
 
-    const databaseName: string = process.env.POSTGRES_DB;
+    const databaseName: string = process.env.POSTGRES_DB!;
     if (!databaseName) {
       throw new Error("POSTGRES_DB environment variable is not set");
     }
