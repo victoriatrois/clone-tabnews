@@ -20,6 +20,8 @@ export default async function getMigrations(
     migrationsTable: "pgmigrations",
   } as RunnerOption;
 
+  console.log("We are on staging!");
+
   try {
     if (!databaseUrl) {
       response
