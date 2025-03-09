@@ -2,15 +2,24 @@ import { NextApiRequest, NextApiResponse } from "next";
 import migrationRunner, { RunnerOption } from "node-pg-migrate";
 import { join } from "path";
 import database from "../../../../infra/database";
+import { Client } from "pg";
 
-export default async function getMigrations(
+export default async function migrations(
   request: NextApiRequest,
   response: NextApiResponse,
 ): Promise<void> {
-  const dbClient = await database.createDbClient();
-  const databaseUrl = process.env.DATABASE_URL;
+  const allowedMethods: string[] = ["GET", "POST"];
+  let dbClient: Client;
+  const databaseUrl: string = process.env.DATABASE_URL || "";
 
-  const defaultMigrationOptions = {
+  if (request.method && !allowedMethods.includes(request.method)) {
+    return response.status(405).json({
+      error: `Method ${request.method} not allowed.`,
+    });
+  }
+
+  dbClient = await database.createDbClient();
+  const defaultMigrationOptions: RunnerOption = {
     dbClient: dbClient,
     databaseUrl: databaseUrl as string,
     dryRun: true,
@@ -18,9 +27,7 @@ export default async function getMigrations(
     direction: "up",
     verbose: true,
     migrationsTable: "pgmigrations",
-  } as RunnerOption;
-
-  console.log("We are on staging!");
+  };
 
   try {
     if (!databaseUrl) {
@@ -32,7 +39,6 @@ export default async function getMigrations(
 
     if (request.method === "GET") {
       const pendingMigrations = await migrationRunner(defaultMigrationOptions);
-      await dbClient.end();
 
       return response.status(200).json(pendingMigrations);
     }
@@ -42,7 +48,6 @@ export default async function getMigrations(
         ...defaultMigrationOptions,
         dryRun: false,
       });
-      await dbClient.end();
 
       if (completedMigrations.length > 0) {
         return response.status(201).json(completedMigrations);
@@ -52,6 +57,7 @@ export default async function getMigrations(
     }
   } catch (error) {
     console.error(error);
-    return response.status(405).json({ error: "Method not allowed." });
+  } finally {
+    await dbClient.end();
   }
 }
