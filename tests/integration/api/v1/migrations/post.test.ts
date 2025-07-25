@@ -1,4 +1,5 @@
 import database from "../../../../../infra/database";
+import orquestrator from "../../../../orchestrator";
 
 async function resetDatabase() {
   await database.query({
@@ -6,7 +7,10 @@ async function resetDatabase() {
   });
 }
 
-beforeAll(resetDatabase);
+beforeAll(async () => {
+  await orquestrator.waitForAllServices();
+  resetDatabase;
+});
 
 test("POST /migrations should return 200", async () => {
   const firstResponse = await fetch("http://localhost:3000/api/v1/migrations", {

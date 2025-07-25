@@ -1,3 +1,9 @@
+import orquestrator from "../../../../orchestrator";
+
+beforeAll(async () => {
+  await orquestrator.waitForAllServices();
+});
+
 test("GET /status should return 200", async () => {
   const response = await fetch("http://localhost:3000/api/v1/status");
   expect(response.status).toBe(200);
