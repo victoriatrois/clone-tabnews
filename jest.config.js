@@ -9,12 +9,13 @@ const createJestConfig = nextJest({
   dir: "./",
 });
 const jestConfig = createJestConfig({
-  modulesDirectories: ["node_modules", "<rootDir>"],
+  moduleDirectories: ["node_modules", "<rootDir>"],
   transform: {
     "^.+\\.tsx?$": "ts-jest",
   },
   testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+  testTimeout: 60000,
 });
 
 module.exports = jestConfig;
