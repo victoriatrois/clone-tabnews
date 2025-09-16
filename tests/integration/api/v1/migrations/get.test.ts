@@ -3,7 +3,7 @@ import orquestrator from "../../../../orchestrator";
 
 beforeAll(async () => {
   await orquestrator.waitForAllServices();
-  resetDatabase;
+  await resetDatabase();
 });
 
 async function resetDatabase() {
