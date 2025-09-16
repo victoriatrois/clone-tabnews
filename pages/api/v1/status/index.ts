@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { QueryResult } from "pg";
 import database from "infra/database";
+import { error } from "console";
 
 async function getStatus(
   request: NextApiRequest,
