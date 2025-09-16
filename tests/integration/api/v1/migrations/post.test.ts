@@ -9,7 +9,7 @@ async function resetDatabase() {
 
 beforeAll(async () => {
   await orquestrator.waitForAllServices();
-  resetDatabase;
+  await resetDatabase();
 });
 
 test("POST /migrations should return 200", async () => {
