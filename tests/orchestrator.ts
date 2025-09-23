@@ -13,17 +13,15 @@ async function waitForAllServices(): Promise<void> {
     async function fetchStatusPage(): Promise<void> {
       try {
         const response = await fetch("http://localhost:3000/api/v1/status");
-        
+
         if (!response.ok) {
           throw new Error(`HTTP error ${response.status}`);
         }
-        
-        await response.json;
 
+        await response.json;
       } catch (error) {
         throw error;
       }
-      
     }
   }
 }
