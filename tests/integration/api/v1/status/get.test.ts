@@ -1,3 +1,4 @@
+import { StatusResponse } from "types/types";
 import orquestrator from "../../../../orchestrator";
 
 beforeAll(async () => {
