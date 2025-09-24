@@ -1,5 +1,6 @@
 import database from "../../../../../infra/database";
 import orquestrator from "../../../../orchestrator";
+import type { MigrationResponse } from "../../../../../types/types";
 
 async function resetDatabase() {
   await database.query({

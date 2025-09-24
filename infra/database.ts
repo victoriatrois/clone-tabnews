@@ -32,10 +32,12 @@ async function createDbClient(): Promise<Client> {
   return client;
 }
 
-export default {
+const database = {
   query,
   createDbClient,
 };
+
+export default database;
 
 function getSslValues(): boolean | { ca: string } {
   if (process.env.POSTGRES_CA) {

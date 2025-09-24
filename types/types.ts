@@ -4,7 +4,7 @@ type DatabaseStatus = {
   used_connections: number;
 };
 
-type StatusResponse = {
+export type StatusResponse = {
   updated_at: string;
   dependencies: {
     database: DatabaseStatus;
@@ -13,4 +13,4 @@ type StatusResponse = {
 
 type Migration = {};
 
-type MigrationResponse = Migration[];
+export type MigrationResponse = Migration[];
