@@ -11,6 +11,7 @@
     "lint:prettier:check": "prettier --check .",
     "lint:prettier:fix": "prettier --write .",
     "lint:eslint:check": "next lint --dir .",
+    "lint:secretlint:check": "npx secretlint \"**/*\"",
     "test": "npm run services:up && concurrently --names next,jest --hide next --kill-others --success command-jest \"next dev\" \"jest --runInBand --verbose\"",
     "test:watch": "jest --watchAll --runInBand",
     "migration:create": "node-pg-migrate --migrations-dir infra/migrations create",
