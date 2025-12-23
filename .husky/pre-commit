@@ -1,0 +1,1 @@
+npx secretlint $(git diff --cached --name-only --diff-filter=ACM) || exit 1
