@@ -1,17 +1,10 @@
-import database from "../../../../../infra/database";
 import orquestrator from "../../../../orchestrator";
 import type { MigrationResponse } from "../../../../../types/types";
 
 beforeAll(async () => {
   await orquestrator.waitForAllServices();
-  await resetDatabase();
+  await orquestrator.resetDatabase();
 });
-
-async function resetDatabase() {
-  await database.query({
-    text: "drop schema public cascade; create schema public;",
-  });
-}
 
 describe("GET api/v1/migrations", () => {
   describe("Anonymous user", () => {

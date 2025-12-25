@@ -1,16 +1,9 @@
-import database from "../../../../../infra/database";
 import orquestrator from "../../../../orchestrator";
 import type { MigrationResponse } from "../../../../../types/types";
 
-async function resetDatabase() {
-  await database.query({
-    text: "drop schema public cascade; create schema public;",
-  });
-}
-
 beforeAll(async () => {
   await orquestrator.waitForAllServices();
-  await resetDatabase();
+  await orquestrator.resetDatabase();
 });
 
 describe("POST api/v1/migrations", () => {
@@ -21,7 +14,7 @@ describe("POST api/v1/migrations", () => {
           "http://localhost:3000/api/v1/migrations",
           {
             method: "POST",
-          }
+          },
         );
         expect(firstResponse.status).toBe(201);
 
@@ -35,7 +28,7 @@ describe("POST api/v1/migrations", () => {
           "http://localhost:3000/api/v1/migrations",
           {
             method: "POST",
-          }
+          },
         );
         expect(secondResponse.status).toBe(200);
 
