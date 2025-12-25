@@ -4,9 +4,8 @@
   "description": "Developing https://tabnews.com.br for professional growth objectives.",
   "main": "index.js",
   "scripts": {
-    "dev": "npm run services:up && npm run services:wait:database && npm run migrations:up && next dev",
-    "test": "npm run services:up && concurrently --names next,jest --hide next --kill-others --success command-jest \"next dev\" \"jest --runInBand --verbose\"",
-    "posttest": "npm run services:stop",
+    "dev": "node infra/scripts/dev.js",
+    "test": "node infra/scripts/test.js",
     "test:watch": "jest --watchAll --runInBand",
     "services:up": "docker compose -f infra/compose.yaml up -d",
     "services:stop": "docker compose -f infra/compose.yaml stop",
