@@ -11,11 +11,9 @@ async function fetchEndpoint(endpointURL: string): Promise<StatusResponse> {
 export default function StatusPage() {
   return (
     <>
-      <h1>Status</h1>
+      <h1>Database Status</h1>
       <UpdatedAt />
-      <DatabaseVersion />
-      <MaxDbConnections />
-      <ConnectionsUsed />
+      <DatabaseInformation />
     </>
   );
 }
@@ -34,35 +32,27 @@ function UpdatedAt() {
   return <div>Última atualização: {updatedAtText}</div>;
 }
 
-function DatabaseVersion() {
-  const { isLoading, data } = useSWR("api/v1/status", fetchEndpoint);
-  let databaseVersion = "";
+function DatabaseInformation() {
+  const { isLoading, data } = useSWR("api/v1/status", fetchEndpoint, {
+    refreshInterval: 2000,
+  });
+
+  let databaseInfo;
 
   if (!isLoading && data) {
-    databaseVersion = data.dependencies.database.postgres_version;
+    databaseInfo = (
+      <>
+        <div>Version: {data.dependencies.database.postgres_version}</div>
+        <div>
+          Maximum connections allowed:
+          {data.dependencies.database.max_connections}
+        </div>
+        <div>
+          Connections being used: {data.dependencies.database.used_connections}
+        </div>
+      </>
+    );
+
+    return <div>{databaseInfo}</div>;
   }
-
-  return <div>Database version: {databaseVersion}</div>;
-}
-
-function MaxDbConnections() {
-  const { isLoading, data } = useSWR("api/v1/status", fetchEndpoint);
-  let maxConnections;
-
-  if (!isLoading && data) {
-    maxConnections = data.dependencies.database.max_connections;
-  }
-
-  return <div>Maximum connections allowed: {maxConnections}</div>;
-}
-
-function ConnectionsUsed() {
-  const { isLoading, data } = useSWR("api/v1/status", fetchEndpoint);
-  let connectionsUsed;
-
-  if (!isLoading && data) {
-    connectionsUsed = data.dependencies.database.used_connections;
-  }
-
-  return <div>Connections being used: {connectionsUsed}</div>;
 }
