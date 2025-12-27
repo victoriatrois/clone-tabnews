@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import useSWR from "swr";
 import { StatusResponse } from "types/types";
 
@@ -23,13 +24,13 @@ function UpdatedAt() {
     refreshInterval: 2000,
   });
 
-  let updatedAtText = "Carregando";
+  let updatedAtText = "Loading";
 
   if (!isLoading && data) {
     updatedAtText = new Date(data.updated_at).toLocaleString("pt-BR");
   }
 
-  return <div>Última atualização: {updatedAtText}</div>;
+  return <div>Last updated at: {updatedAtText}</div>;
 }
 
 function DatabaseInformation() {
@@ -37,7 +38,7 @@ function DatabaseInformation() {
     refreshInterval: 2000,
   });
 
-  let databaseInfo;
+  let databaseInfo: ReactNode = "Loading";
 
   if (!isLoading && data) {
     databaseInfo = (
@@ -52,7 +53,7 @@ function DatabaseInformation() {
         </div>
       </>
     );
-
-    return <div>{databaseInfo}</div>;
   }
+
+  return <div>{databaseInfo}</div>;
 }
