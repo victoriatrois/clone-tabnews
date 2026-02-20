@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { QueryResult } from "pg";
 import database from "infra/database";
+import { InternalServerError } from "infra/errors";
 
 async function getStatus(
   request: NextApiRequest,
@@ -50,8 +51,11 @@ async function getStatus(
       },
     });
   } catch (error) {
-    console.error(error);
-    response.status(500).json({ error: "Failed to connect to database" });
+    const publicError = new InternalServerError({
+      cause: error,
+    });
+    console.error(publicError);
+    response.status(500).json(publicError);
   }
 }
 

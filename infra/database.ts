@@ -11,9 +11,7 @@ async function query(queryObject: QueryConfig): Promise<any> {
     console.error(error);
     throw error;
   } finally {
-    if (client) {
-      await client.end();
-    }
+    await client?.end();
   }
 }
 
