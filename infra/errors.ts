@@ -43,11 +43,42 @@ export class ServiceError extends Error {
   action: string;
   statusCode: number;
 
-  constructor({ cause, message }: { cause?: unknown; message: string }) {
+  constructor({
+    action,
+    cause,
+    statusCode,
+    message,
+  }: {
+    action?: string;
+    cause?: unknown;
+    statusCode: number;
+    message: string;
+  }) {
     super(message || "Service unavailable", { cause });
     this.name = "InternalServerError";
-    this.action = "Something went wrong, check service availability.";
-    this.statusCode = 503;
+    this.action = action || "Something went wrong, check service availability.";
+    this.statusCode = statusCode || 503;
+  }
+
+  toJSON() {
+    return {
+      name: this.name,
+      message: this.message,
+      action: this.action,
+      status_code: this.statusCode,
+    };
+  }
+}
+
+export class MissingEnvironmentVariableError extends Error {
+  action: string;
+  statusCode: number;
+
+  constructor({ variable }: { variable: string }) {
+    super(`${variable} environment variable is not set`);
+    this.name = "MissingEnvironmentVariableError";
+    this.action = "Configure the required environment variable.";
+    this.statusCode = 500;
   }
 
   toJSON() {

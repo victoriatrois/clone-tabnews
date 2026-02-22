@@ -12,6 +12,7 @@ async function query(queryObject: QueryConfig): Promise<any> {
     const serviceError = new ServiceError({
       message:
         "An error occured either on the database connection or on the query run",
+      statusCode: 500,
       cause: error,
     });
     throw serviceError;
