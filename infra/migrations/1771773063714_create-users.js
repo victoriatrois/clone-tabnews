@@ -22,21 +22,23 @@ exports.up = (pgm) => {
       unique: true,
     },
 
-    // For reference, 72 character because: https://security.stackexchange.com/a/39851
+    // For reference, 60 character because: https://www.npmjs.com/package/bcrypt#hash-info
     password: {
-      type: "varchar(72)",
+      type: "varchar(60)",
       notNull: true,
     },
 
     // For reference, timestamptz because: https://justatheory.com/2012/04/postgres-use-timestamptz/
     created_at: {
       type: "timestamptz",
-      default: pgm.func("now()"),
+      default: pgm.func("timezone('utc', now())"),
+      notNull: true,
     },
 
     updated_at: {
       type: "timestamptz",
-      default: pgm.func("now()"),
+      default: pgm.func("timezone('utc', now())"),
+      notNull: true,
     },
   });
 };
