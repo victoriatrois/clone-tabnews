@@ -1,4 +1,4 @@
-import { InternalServerError, MethodNotAllowedError } from "infra/errors";
+import { InternalServerError, MethodNotAllowedError, ValidationError } from "infra/errors";
 import { NextApiRequest } from "next";
 import { NextApiResponse } from "next";
 
@@ -12,6 +12,11 @@ function onErrorHandler(
   request: NextApiRequest,
   response: NextApiResponse,
 ) {
+
+  if (error instanceof ValidationError) {
+    return response.status(error.statusCode).json(error);
+  }
+
   const publicError = new InternalServerError({
     statusCode: (error as any)?.statusCode,
     cause: error,

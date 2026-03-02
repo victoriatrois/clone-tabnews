@@ -90,3 +90,32 @@ export class MissingEnvironmentVariableError extends Error {
     };
   }
 }
+
+export class ValidationError extends Error {
+  action: string;
+  statusCode: number;
+
+  constructor({
+    action,
+    cause,
+    message,
+  }: {
+    action?: string;
+    cause?: unknown;
+    message: string;
+  }) {
+    super(message || "Invalid input", { cause });
+    this.name = "ValidationError";
+    this.action = action || "Correct the input sent and try again.";
+    this.statusCode = 400;
+  }
+
+  toJSON() {
+    return {
+      name: this.name,
+      message: this.message,
+      action: this.action,
+      status_code: this.statusCode,
+    };
+  }
+}
