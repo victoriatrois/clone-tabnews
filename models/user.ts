@@ -25,10 +25,8 @@ async function findOneByUsername(username: string): Promise<User> {
 
     if (result.rowCount === 0) {
       throw new NotFoundError({
-        name: "NotFoundError",
         message: "The informed user was not found",
         action: "Check the if the username is correct.",
-        status_code: 404
       });
     }
 
