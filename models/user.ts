@@ -1,6 +1,40 @@
 import { User } from "types/types";
 import database from "infra/database";
-import { ValidationError } from "infra/errors";
+import { NotFoundError, ValidationError } from "infra/errors";
+
+async function findOneByUsername(username: string): Promise<User> {
+  const returnedUser = await 
+  runSelectQuery(username);
+  
+  return returnedUser;
+
+  async function runSelectQuery(username: string): Promise<User> {
+    const result = await database.query({
+      text: `
+        SELECT
+          *
+        FROM
+          users
+        WHERE
+          LOWER(username) = LOWER($1)
+        LIMIT
+          1
+      ;`,
+      values: [username],
+    });
+
+    if (result.rowCount === 0) {
+      throw new NotFoundError({
+        name: "NotFoundError",
+        message: "The informed user was not found",
+        action: "Check the if the username is correct.",
+        status_code: 404
+      });
+    }
+
+    return result.rows[0];
+  }
+}
 
 async function create(userInput: User) {
   await validateUniqueEmail(userInput.email);
@@ -30,6 +64,7 @@ async function create(userInput: User) {
       });
     }
   }
+
   async function validateUniqueUsername(username: string) {
     const result = await database.query({
       text: `
@@ -73,6 +108,7 @@ async function create(userInput: User) {
 
 const user = {
   create,
+  findOneByUsername
 }
 
 export default user;
