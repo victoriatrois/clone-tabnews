@@ -1,4 +1,4 @@
-import { InternalServerError, MethodNotAllowedError, ValidationError } from "infra/errors";
+import { InternalServerError, MethodNotAllowedError, NotFoundError, ValidationError } from "infra/errors";
 import { NextApiRequest } from "next";
 import { NextApiResponse } from "next";
 
@@ -13,7 +13,7 @@ function onErrorHandler(
   response: NextApiResponse,
 ) {
 
-  if (error instanceof ValidationError) {
+  if (error instanceof ValidationError || error instanceof NotFoundError) {
     return response.status(error.statusCode).json(error);
   }
 

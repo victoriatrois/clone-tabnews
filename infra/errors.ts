@@ -119,3 +119,32 @@ export class ValidationError extends Error {
     };
   }
 }
+
+export class NotFoundError extends Error {
+  action: string;
+  statusCode: number;
+
+  constructor({
+    action,
+    cause,
+    message,
+  }: {
+    action?: string;
+    cause?: unknown;
+    message: string;
+  }) {
+    super(message || "Resource not found", { cause });
+    this.name = "NotFoundError";
+    this.action = action || "Check if the parameters sent in the query are correct.";
+    this.statusCode = 404;
+  }
+
+  toJSON() {
+    return {
+      name: this.name,
+      message: this.message,
+      action: this.action,
+      status_code: this.statusCode,
+    };
+  }
+}
