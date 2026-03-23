@@ -16,10 +16,10 @@ describe("POST api/v1/users", () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: 'filipedeschamps',
-          email: 'fdeschaps@gmail.com',
-          password: 'senha123'
-        })
+          username: "filipedeschamps",
+          email: "fdeschaps@gmail.com",
+          password: "senha123",
+        }),
       });
       expect(response.status).toBe(201);
 
@@ -44,23 +44,23 @@ describe("POST api/v1/users", () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: 'duplicatedemail1',
-          email: 'duplicatedemail@gmail.com',
-          password: 'senha123'
-        })
+          username: "duplicatedemail1",
+          email: "duplicatedemail@gmail.com",
+          password: "senha123",
+        }),
       });
       expect(firstResponse.status).toBe(201);
-      
+
       const secondResponse = await fetch("http://localhost:3000/api/v1/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: 'duplicatedemail2',
-          email: 'duplicatedemail@gmail.com',
-          password: 'senha123'
-        })
+          username: "duplicatedemail2",
+          email: "duplicatedemail@gmail.com",
+          password: "senha123",
+        }),
       });
       expect(secondResponse.status).toBe(400);
 
@@ -69,7 +69,7 @@ describe("POST api/v1/users", () => {
         name: "ValidationError",
         message: "The informed email address has already signed up",
         action: "Use a different email address to sign up.",
-        status_code: 400
+        status_code: 400,
       });
     });
 
@@ -80,23 +80,23 @@ describe("POST api/v1/users", () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: 'duplicatedusername',
-          email: 'duplicatedusername1@gmail.com',
-          password: 'senha123'
-        })
+          username: "duplicatedusername",
+          email: "duplicatedusername1@gmail.com",
+          password: "senha123",
+        }),
       });
       expect(firstResponse.status).toBe(201);
-      
+
       const secondResponse = await fetch("http://localhost:3000/api/v1/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: 'Duplicatedusername',
-          email: 'duplicatedemail2@gmail.com',
-          password: 'senha123'
-        })
+          username: "Duplicatedusername",
+          email: "duplicatedemail2@gmail.com",
+          password: "senha123",
+        }),
       });
       expect(secondResponse.status).toBe(400);
 
@@ -105,7 +105,7 @@ describe("POST api/v1/users", () => {
         name: "ValidationError",
         message: "The informed username has already signed up",
         action: "Use a different username to sign up.",
-        status_code: 400
+        status_code: 400,
       });
     });
   });

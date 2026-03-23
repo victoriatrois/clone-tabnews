@@ -3,9 +3,8 @@ import database from "infra/database";
 import { NotFoundError, ValidationError } from "infra/errors";
 
 async function findOneByUsername(username: string): Promise<User> {
-  const returnedUser = await 
-  runSelectQuery(username);
-  
+  const returnedUser = await runSelectQuery(username);
+
   return returnedUser;
 
   async function runSelectQuery(username: string): Promise<User> {
@@ -86,7 +85,7 @@ async function create(userInput: User) {
 
   async function runInsertQuery(userInput: User) {
     const result = await database.query({
-    text: `
+      text: `
       INSERT INTO
         users (username, email, password)
       VALUES
@@ -94,19 +93,16 @@ async function create(userInput: User) {
       RETURNING
         *
     ;`,
-    values: [
-      userInput.username,
-      userInput.email,
-      userInput.password],
-  });
+      values: [userInput.username, userInput.email, userInput.password],
+    });
 
-  return result.rows[0];
+    return result.rows[0];
   }
 }
 
 const user = {
   create,
-  findOneByUsername
-}
+  findOneByUsername,
+};
 
 export default user;

@@ -135,7 +135,8 @@ export class NotFoundError extends Error {
   }) {
     super(message || "Resource not found", { cause });
     this.name = "NotFoundError";
-    this.action = action || "Check if the parameters sent in the query are correct.";
+    this.action =
+      action || "Check if the parameters sent in the query are correct.";
     this.statusCode = 404;
   }
 

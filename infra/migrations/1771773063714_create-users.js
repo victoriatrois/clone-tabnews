@@ -1,5 +1,3 @@
-const { password } = require("pg/lib/defaults");
-
 exports.up = (pgm) => {
   pgm.createTable("users", {
     id: {

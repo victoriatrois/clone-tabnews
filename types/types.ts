@@ -16,10 +16,10 @@ type Migration = {};
 export type MigrationResponse = Migration[];
 
 export type User = {
-  id: string,
-  username: string,
-  email: string,
-  password: string,
-  created_at: string,
-  updated_at: string
-}
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  created_at: string;
+  updated_at: string;
+};
