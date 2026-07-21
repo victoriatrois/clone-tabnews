@@ -33,7 +33,7 @@ describe("GET api/v1/users/[username]", () => {
         id: secondResponseBody.id,
         username: "ExactMatch",
         email: "exact.match@gmail.com",
-        password: "senha123",
+        password: secondResponseBody.password,
         created_at: secondResponseBody.created_at,
         updated_at: secondResponseBody.updated_at,
       });
@@ -66,7 +66,7 @@ describe("GET api/v1/users/[username]", () => {
         id: secondResponseBody.id,
         username: "CaseMismatch",
         email: "case.mismatch@gmail.com",
-        password: "senha123",
+        password: secondResponseBody.password,
         created_at: secondResponseBody.created_at,
         updated_at: secondResponseBody.updated_at,
       });
