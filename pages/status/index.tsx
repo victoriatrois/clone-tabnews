@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import useSWR from "swr";
-import { StatusResponse } from "types/types";
+import { StatusResponse } from "../../types/types";
 
 async function fetchEndpoint(endpointURL: string): Promise<StatusResponse> {
   const response = await fetch(endpointURL);

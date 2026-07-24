@@ -1,6 +1,6 @@
 import retry from "async-retry";
-import database from "infra/database";
-import migrator from "models/migrator";
+import database from "../infra/database";
+import migrator from "../models/migrator";
 
 async function waitForAllServices(): Promise<void> {
   await waitForWebServices();

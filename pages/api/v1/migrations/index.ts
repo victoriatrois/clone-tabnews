@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { createRouter } from "next-connect";
-import controller from "infra/controller";
-import migrator from "models/migrator";
+import controller from "../../../../infra/controller";
+import migrator from "../../../../models/migrator";
 
 const router = createRouter<NextApiRequest, NextApiResponse>();
 

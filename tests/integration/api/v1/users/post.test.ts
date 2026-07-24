@@ -1,5 +1,7 @@
 import { version as uuidVersion } from "uuid";
 import orquestrator from "../../../../orchestrator";
+import user from "../../../../../models/user";
+import password from "../../../../../models/password";
 
 beforeAll(async () => {
   await orquestrator.waitForAllServices();
@@ -28,13 +30,26 @@ describe("POST api/v1/users", () => {
         id: responseBody.id,
         username: responseBody.username,
         email: "fdeschaps@gmail.com",
-        password: "senha123",
+        password: responseBody.password,
         created_at: responseBody.created_at,
         updated_at: responseBody.updated_at,
       });
       expect(uuidVersion(responseBody.id)).toBe(4);
       expect(Date.parse(responseBody.created_at)).not.toBeNaN();
       expect(Date.parse(responseBody.updated_at)).not.toBeNaN();
+
+      const persistedUser = await user.findOneByUsername("filipedeschamps");
+      const passwordsMatch = await password.compare(
+        "senha123",
+        persistedUser.password,
+      );
+      const passwordsDontMatch = await password.compare(
+        "wrongPassword",
+        persistedUser.password,
+      );
+
+      expect(passwordsMatch).toBe(true);
+      expect(passwordsDontMatch).toBe(false);
     });
 
     test("With duplicated 'email' data", async () => {
@@ -67,8 +82,8 @@ describe("POST api/v1/users", () => {
       const secondResponseBody = await secondResponse.json();
       expect(secondResponseBody).toEqual({
         name: "ValidationError",
-        message: "The informed email address has already signed up",
-        action: "Use a different email address to sign up.",
+        message: "The informed email address has already been used",
+        action: "Use a different email address in this operation.",
         status_code: 400,
       });
     });
@@ -103,8 +118,8 @@ describe("POST api/v1/users", () => {
       const secondResponseBody = await secondResponse.json();
       expect(secondResponseBody).toEqual({
         name: "ValidationError",
-        message: "The informed username has already signed up",
-        action: "Use a different username to sign up.",
+        message: "The informed username has already been used",
+        action: "Use a different username in this opperation.",
         status_code: 400,
       });
     });
