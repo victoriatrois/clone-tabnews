@@ -1,5 +1,5 @@
-import database from "infra/database";
-import { MissingEnvironmentVariableError, ServiceError } from "infra/errors";
+import database from "../infra/database";
+import { MissingEnvironmentVariableError, ServiceError } from "../infra/errors";
 import migrationRunner, { RunnerOption } from "node-pg-migrate";
 import { RunMigration } from "node-pg-migrate/dist/migration";
 import { resolve } from "path";

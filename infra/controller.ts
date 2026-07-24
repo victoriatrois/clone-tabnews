@@ -3,7 +3,7 @@ import {
   MethodNotAllowedError,
   NotFoundError,
   ValidationError,
-} from "infra/errors";
+} from "../infra/errors";
 import { NextApiRequest } from "next";
 import { NextApiResponse } from "next";
 

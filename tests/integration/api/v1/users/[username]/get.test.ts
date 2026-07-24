@@ -1,5 +1,5 @@
 import { version as uuidVersion } from "uuid";
-import orquestrator from "tests/orchestrator";
+import orquestrator from "../../../../../orchestrator";
 
 beforeAll(async () => {
   await orquestrator.waitForAllServices();
