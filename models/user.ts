@@ -72,13 +72,13 @@ async function update(username: string, userInput: User) {
   }
 
   if ("password" in userInput) {
-    await hashPasswordInObject(userInput)
+    await hashPasswordInObject(userInput);
   }
 
   const userUpdatedData = {
     ...currentUser,
-    ...userInput
-  }
+    ...userInput,
+  };
 
   const updatedUser = await runUpdateQuery(userUpdatedData);
   return updatedUser;
@@ -103,8 +103,7 @@ async function update(username: string, userInput: User) {
         userUpdatedData.username,
         userUpdatedData.email,
         userUpdatedData.password,
-      ]
-
+      ],
     });
 
     return results.rows[0];
@@ -154,9 +153,9 @@ async function validateUniqueEmail(email: string) {
 }
 
 async function hashPasswordInObject(userInput: User) {
-    const hashedPassword = await password.hash(userInput.password);
-    userInput.password = hashedPassword;
-  }
+  const hashedPassword = await password.hash(userInput.password);
+  userInput.password = hashedPassword;
+}
 
 const user = {
   create,
